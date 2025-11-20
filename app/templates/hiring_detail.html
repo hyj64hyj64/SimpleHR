@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Candidate: {{ candidate.full_name }}</h1>
+
+<p><strong>Position:</strong> {{ candidate.position or "-" }}</p>
+<p><strong>Source:</strong> {{ candidate.source or "-" }}</p>
+<p><strong>Current stage:</strong> {{ candidate.stage.name }}</p>
+
+<h2>Move to next step</h2>
+{% if next_stages %}
+<form method="post" action="/hiring/{{ candidate.id }}/stage">
+  <label for="stage">Next stage:</label>
+  <select name="stage" id="stage">
+    {% for s in next_stages %}
+      <option value="{{ s }}">{{ s }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Update</button>
+</form>
+{% else %}
+<p><em>No further actions – this candidate is in a final stage.</em></p>
+{% endif %}
+
+<p><a href="/hiring">⬅ Back to pipeline</a></p>
+{% endblock %}

@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+jinja2
+python-multipart
+passlib[bcrypt]
+itsdangerous
+pydantic-settings
+bcrypt==4.3.0
