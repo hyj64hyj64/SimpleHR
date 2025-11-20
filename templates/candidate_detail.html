@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Candidate: {{ candidate.full_name }}</h1>
+
+<div class="card">
+  <p><strong>Email:</strong> {{ candidate.email or "-" }}</p>
+  <p><strong>Phone:</strong> {{ candidate.phone or "-" }}</p>
+  <p><strong>Position:</strong> {{ candidate.position or "-" }}</p>
+  <p><strong>Source:</strong> {{ candidate.source or "-" }}</p>
+  <p><strong>Stage:</strong> {{ candidate.stage }}</p>
+  <p><strong>Notes:</strong><br>{{ candidate.notes or "-" }}</p>
+</div>
+
+<div class="card">
+  <h3>Update Stage</h3>
+  <form method="post" action="/hiring/{{ candidate.id }}/stage">
+    <label>Stage
+      <select name="stage">
+        {% for name, _ in candidate.__class__.__dict__['__annotations__'].items() if False %}{% endfor %}
+        {% for s in candidate.__class__.__mro__[0].__dict__['__members__'].keys() if False %}{% endfor %}
+        {% for s in candidate.stage.__class__.__members__.keys() %}
+          <option value="{{ s }}" {% if s == candidate.stage.name %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <button type="submit">Save</button>
+  </form>
+</div>
+
+{% endblock %}

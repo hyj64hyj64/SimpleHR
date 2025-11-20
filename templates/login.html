@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Simple HR</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="login-body">
+
+<div class="card">
+  <h2>Sign in</h2>
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+  <form method="post" action="/login">
+    <label>Email
+      <input type="email" name="email" required>
+    </label>
+    <label>Password
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+</body>
+</html>

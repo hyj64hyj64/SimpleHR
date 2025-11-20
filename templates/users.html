@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>User Management</h1>
+
+<a href="/users/new" class="btn">+ Create User</a>
+
+<table class="table" style="margin-top: 12px;">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Linked Employee</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.email }}</td>
+      <td>{{ u.role }}</td>
+      <td>
+        {% if u.employee_id and employees.get(u.employee_id) %}
+          {{ employees[u.employee_id].first_name }} {{ employees[u.employee_id].last_name }}
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>
+        <a href="/users/{{ u.id }}/password">Change Password</a>
+        {% if user.role == "admin" %}
+          | <a href="/users/{{ u.id }}/edit">Edit</a>
+          <form method="post" action="/users/{{ u.id }}/delete" style="display:inline;" onsubmit="return confirm('Delete this user?');">
+            <button type="submit">Delete</button>
+          </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
