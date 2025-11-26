@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Onboarding – {{ employee.first_name }} {{ employee.last_name }}</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Complete</th>
+      <th>Completed At</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for t in tasks %}
+    <tr>
+      <td>{{ t.title }}</td>
+      <td>{{ "Yes" if t.is_complete else "No" }}</td>
+      <td>{{ t.completed_at or "-" }}</td>
+      <td>
+        <form method="post" action="/onboarding/{{ employee.id }}/tasks/{{ t.id }}/toggle">
+          <button type="submit">
+            {% if t.is_complete %}Mark Incomplete{% else %}Mark Complete{% endif %}
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="/onboarding">Back to Overview</a>
+{% endblock %}

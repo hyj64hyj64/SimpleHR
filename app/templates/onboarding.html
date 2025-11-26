@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Onboarding Overview</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <th>Total Tasks</th>
+      <th>Completed</th>
+      <th>Progress</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in overview %}
+    <tr>
+      <td>{{ row.employee.first_name }} {{ row.employee.last_name }}</td>
+      <td>{{ row.total }}</td>
+      <td>{{ row.done }}</td>
+      <td>{{ row.percent }}%</td>
+      <td><a href="/onboarding/{{ row.employee.id }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
