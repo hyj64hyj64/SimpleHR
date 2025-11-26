@@ -1,4 +1,6 @@
 import itsdangerous
+import bcrypt
+bcrypt.__about__ = bcrypt
 from fastapi import Request, Response
 from passlib.context import CryptContext
 from sqlmodel import Session, select
