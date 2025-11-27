@@ -86,6 +86,9 @@ def logout(response: Response):
     clear_session_cookie(response)
     return RedirectResponse("/login", status_code=303)
 
+@app.get("/")
+def read_root():
+    return {"status": "ok"}
 
 app.include_router(dashboard.router)
 app.include_router(employees.router)
