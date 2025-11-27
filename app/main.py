@@ -87,8 +87,9 @@ def logout(response: Response):
     return RedirectResponse("/login", status_code=303)
 
 @app.get("/")
-def read_root():
-    return {"status": "ok"}
+def home():
+    return {"status": "ok", "message": "Simple HR running"}
+
 
 app.include_router(dashboard.router)
 app.include_router(employees.router)
