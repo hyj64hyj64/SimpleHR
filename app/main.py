@@ -11,7 +11,7 @@ from .routers import dashboard, employees, timesheets, hiring, onboarding, quick
 
 from datetime import date
 
-app = FastAPI(title="Distrinote HR")
+app = FastAPI(title="Simple HR")
 
 templates = Jinja2Templates(directory="app/templates")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
