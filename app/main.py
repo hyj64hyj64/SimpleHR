@@ -88,8 +88,7 @@ def logout(response: Response):
 
 @app.get("/")
 def home():
-    return {"status": "ok", "message": "Simple HR running"}
-
+    return RedirectResponse("/login")
 
 app.include_router(dashboard.router)
 app.include_router(employees.router)
