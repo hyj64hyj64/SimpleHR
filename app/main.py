@@ -75,7 +75,7 @@ def login_action(
 
 #    return RedirectResponse(target, status_code=303)
     # Create the redirect *first*
-    response = RedirectResponse(url="/", status_code=303)
+    response = RedirectResponse(url="/dashboard", status_code=303)
     # Attach the cookie to THAT response
     create_session_cookie(response, user.id)
     return response
