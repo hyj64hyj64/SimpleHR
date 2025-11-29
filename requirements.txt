@@ -7,3 +7,4 @@ passlib[bcrypt]
 itsdangerous
 pydantic-settings
 bcrypt==4.3.0
+psycopg2-binary
