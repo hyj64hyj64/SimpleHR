@@ -1,34 +1,49 @@
 # create_initial_user.py
 
-from app.database import SessionLocal
-from app.models import User
-from app.utils import get_password_hash  # adjust path if needed
+import os
+from sqlmodel import Session, select
+from app.db import engine, init_db
+from app.models import User, Employee, UserRole
+from app.auth import hash_password
+from datetime import date
 
-def create_user():
-    db = SessionLocal()
+def create_initial_user():
+    print("Initializing database...")
+    init_db()
 
-    # CHANGE THESE:
-    username = "admin"
-    password = "Admin123"
-    email = "admin@example.com"
+    with Session(engine) as session:
+        # Check if an admin user already exists
+        admin = session.exec(select(User).where(User.role == UserRole.ADMIN)).first()
 
-    # Check if user exists
-    existing = db.query(User).filter(User.username == username).first()
-    if existing:
-        print("User already exists.")
-        return
+        if admin:
+            print("Admin user already exists:", admin.email)
+            return
 
-    user = User(
-        username=username,
-        email=email,
-        hashed_password=get_password_hash(password)
-    )
+        print("Creating initial admin employee...")
+        emp = Employee(
+            first_name="Admin",
+            last_name="User",
+            email="admin@example.com",
+            employment_type="W2",
+            start_date=date(2025, 1, 1)
+        )
+        session.add(emp)
+        session.commit()
+        session.refresh(emp)
 
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+        print("Creating admin login user...")
+        admin_user = User(
+            email="admin@example.com",
+            hashed_password=hash_password("admin123"),
+            role=UserRole.ADMIN,
+            employee_id=emp.id,
+        )
+        session.add(admin_user)
+        session.commit()
 
-    print("User created:", user.username)
+        print("Admin user created successfully!")
+        print("Login email: admin@example.com")
+        print("Login password: admin123")
 
 if __name__ == "__main__":
-    create_user()
+    create_initial_user()
