@@ -19,7 +19,11 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.on_event("startup")
 def startup():
-    init_db()
+#    init_db()
+    # Create tables ONLY if they do not exist
+    SQLModel.metadata.create_all(engine)
+
+    # Create initial admin ONLY if not present
     with Session(engine) as session:
         admin = session.exec(select(User).where(User.role == UserRole.ADMIN)).first()
         if not admin:
