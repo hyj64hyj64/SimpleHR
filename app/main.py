@@ -23,31 +23,6 @@ def startup():
     # Create tables ONLY if they do not exist
     SQLModel.metadata.create_all(engine)
 
-    # Create initial admin ONLY if not present
-    with Session(engine) as session:
-        admin = session.exec(select(User).where(User.role == UserRole.ADMIN)).first()
-        if not admin:
-            emp = Employee(
-                first_name="Admin",
-                last_name="User",
-                email="admin@example.com",
-                employment_type="W2",
-                start_date=date(2025, 1, 1),  # ✅ proper Python date
-            )
-            session.add(emp)
-            session.commit()
-            session.refresh(emp)
-
-            admin_user = User(
-                email="admin@example.com",
-                hashed_password=hash_password("admin123"),
-                role=UserRole.ADMIN,
-                employee_id=emp.id,
-            )
-            session.add(admin_user)
-            session.commit()
-
-
 @app.get("/login")
 def login_page(request: Request):
     return templates.TemplateResponse(
