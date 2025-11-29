@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Form, Depends, Response
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from sqlmodel import Session, select
+from sqlmodel import Session, select, SQLModel
 
 from .db import init_db, engine, get_session
 from .models import User, UserRole, Employee
