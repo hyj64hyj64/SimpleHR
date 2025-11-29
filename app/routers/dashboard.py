@@ -6,11 +6,11 @@ from ..deps import require_user
 from ..db import get_session
 from ..models import Employee, Timesheet, User, TimesheetStatus
 
-router = APIRouter()
+router = APIRouter(prefix="/dashboard")
 templates = Jinja2Templates(directory="app/templates")
 
 
-@router.get("/")
+@router.get("")
 def dashboard(
     request: Request,
     session: Session = Depends(get_session),
