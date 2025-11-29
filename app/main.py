@@ -90,6 +90,30 @@ def logout(response: Response):
 def home():
     return RedirectResponse("/login")
 
+@app.post("/create-initial-user")
+def create_initial_user(db: Session = Depends(get_db)):
+    from app.utils import get_password_hash
+
+    username = "admin"
+    password = "Admin123"
+    email = "admin@example.com"
+
+    existing = db.query(User).filter(User.username == username).first()
+    if existing:
+        return {"message": "User already exists"}
+
+    user = User(
+        username=username,
+        email=email,
+        hashed_password=get_password_hash(password)
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    return {"message": "Admin user created"}
+
+
 app.include_router(dashboard.router)
 app.include_router(employees.router)
 app.include_router(timesheets.router)
